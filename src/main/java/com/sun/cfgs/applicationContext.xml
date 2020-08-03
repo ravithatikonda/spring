@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Configiure DataSource -->
+
+	<bean id="mysqlDrds"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName"
+			value="com.mysql.cj.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql:///InnoDB" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+	</bean>
+
+	<!-- cfg DAO class -->
+	<bean id="oraEmpDAO" class="com.sun.dao.EmployeeDAOImpl">
+		<constructor-arg ref="mysqlDrds" />
+	</bean>
+
+	<!-- cfg service class -->
+	<bean id="EmpService"
+		class="com.sun.service.EmployeeMgmtServiceImlp">
+		<constructor-arg ref="oraEmpDAO" />
+	</bean>
+
+	<!-- cfg Controller class -->
+	<bean id="controller" class="com.sun.controller.MainController">
+		<constructor-arg ref="EmpService" />
+	</bean>
+
+</beans>
